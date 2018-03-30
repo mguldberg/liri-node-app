@@ -1,3 +1,5 @@
+// import { twitter } from "./keys";
+
 var dotEnv = require("dotenv").config();
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
@@ -6,16 +8,30 @@ var request = require("request");
 
 var keys = require("./keys.js");
 
-var spotify = new Spotify(keys.spotify);
-var client = new Twitter(keys.twitter);
+var spotifyClient = new Spotify(keys.spotify);
+var twitterClient = new Twitter(keys.twitter);
 
+// // Set up your search parameters
+// var params = {
+//     q: '#nodejs',
+//     count: 10,
+//     result_type: 'recent',
+//     lang: 'en'
+//   }
+
+// var params = { screen_name: 'nodejs' };
+// twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
+//     if (!error) {
+//         console.log(tweets);
+//     }
+// });
 
 //default movie name to Mr. Nobody
 var movieName = "Mr. Nobody";
 
-//default movie name to Mr. Nobody
-var songName = "The Sign";
-
+//default song name to The Sign
+// var songName = "Cliffs of Dover";
+var songName = "The Sign Ace of Base"
 
 // We then store the textfile filename given to us from the command line
 var liriOperation = process.argv[2];
@@ -47,29 +63,184 @@ function twitterSearch() {
     console.log("in twitter search");
 
 
-//     var Twit = require('twit'); // this is how we import the twit package
-// var config = require('./config') //this is we import the config 
-// file which is a js file which contains the keys ans tokens
-// var T = new Twit(config); //this is the object of twit which 
-// will help us to call functions inside it
-// var params = {
-// q: 'akshay',
-// count: 100
-// } // this is the param variable which will have key and value 
-// ,the key is the keyword which we are interested in searching and count 
-// is the count of it
-// T.get('search/tweets', params,searchedData); // get is the 
-// function to search the tweet which three paramaters 'search/tweets'
-// ,params and a callback function.
-// function searchedData(err, data, response) {
-// console.log(data);
-// } // searchedData function is a callback function which 
-// returns the data when we make a search
+    // Set up your search parameters
+    var params = {
+        screen_name: 'GopherFootball',
+        // q: 'gopher',
+        count: 5,
+        result_type: 'recent',
+        lang: 'en'
+    }
+
+    // twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
+
+    twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
+
+        //if no error returned from Twitter get
+        if (!error) {
+            console.log("in the get from twitter");
+            var twitterOutput = "";
+            for (i = 0; i < tweets.length; i++) {
+
+                console.log("---------------- Tweet #" + i + " ------------------------");
+                twitterOutput += ("---------------- Tweet #" + i + " ------------------------\n");
+                //* Username 
+                console.log("Twitter username: @" + tweets[i].user.screen_name);
+                twitterOutput += ("Twitter username: @" + tweets[i].user.screen_name + "\n");
+                // Tweet URL
+                console.log("Tweet URL: " + tweets[i].user.url);
+                twitterOutput += ("Tweet URL: " + tweets[i].user.url + "\n");
+
+                //* Tweet Content
+                console.log("Tweet Content>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                twitterOutput += ("Tweet Content>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+                console.log(tweets[i].text);
+                twitterOutput += (tweets[i].text + "\n");
+                console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                twitterOutput += ("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+                console.log("--------------------------------------------------");
+                twitterOutput += ("--------------------------------------------------\n");
+            }
+
+            //append all console.log output not used for debugging to the output file
+            fs.appendFile("log.txt", twitterOutput, function (err) {
+
+                // If an error was experienced we say it.
+                if (err) {
+                    console.log(err);
+                }
+                // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+                else {
+                    console.log("Content Added!");
+                }
+
+            });
+
+            // these didn't work------
+            // console.log(response);
+            // console.log(JSON.parse(response));
+            // console.log(tweets.screen_name)
+            // console.log(tweets));
+            // -----------------
+
+            // Dump raw formatted twitter API response to file
+            fs.writeFile("twitter_output.json", JSON.stringify(tweets, null, 4), function (err) {
+
+                // If the code experiences any errors it will log the error to the console.
+                if (err) {
+                    return console.log(err);
+                }
+
+                // Otherwise, it will print: "movies.txt was updated!"
+                console.log("twitter_output_json_format.txt was updated!");
+
+            });
+
+        }
+    });
 
 }
 
 //spotify search function
 function spotifySearch() {
+
+    console.log(process.argv[3]);
+
+    //checks if there is a song title given by the user
+    if (process.argv[3] != undefined) {
+
+        console.log("inside if spotify statement");
+
+        //init songName to over write 'The Sign' because their is a user passed argument
+        songName = "";
+
+        //loop through the arg array until there aren't any more arguments
+        for (i = 3; process.argv[i] != undefined; i++) {
+            console.log("inside for loop in spotify");
+
+            //add each arg to the movieName var to use in the QueryURL
+            songName = songName + "+" + process.argv[i];
+
+            console.log(songName);
+        }
+    }
+
+    var spotifySearchParms = {
+        type: "track",
+        query: songName,
+        limit: "5"
+    };
+
+    spotifyClient.search(spotifySearchParms, function (err, returnedSpotifyApiQueryData) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        console.log(returnedSpotifyApiQueryData);
+
+        // console.log(JSON.parse(returnedSpotifyApiQueryData));
+        console.log("in the get from spotify");
+        var spotifyOutput = "";
+
+        // Output content 
+        // Artist(s)
+        // The song's name
+        // A preview link of the song from Spotify
+        // The album that the song is from
+        console.log(returnedSpotifyApiQueryData.tracks.items.length);
+        for (i = 0; i < returnedSpotifyApiQueryData.tracks.items.length; i++) {
+
+            console.log("---------------- Spotify Result #" + i + " ------------------------------");
+            spotifyOutput += ("---------------- Spotify Result #" + i + " ------------------------------\n");
+            //* Artist Name 
+            console.log("Artist Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].name);
+            spotifyOutput += ("Artist Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].name + "\n");
+            // Song Name 
+            console.log("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name);
+            spotifyOutput += ("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name + "\n");
+            // Song URL
+            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify);
+            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify + "\n");
+            // Album Name 
+            console.log("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name);
+            spotifyOutput += ("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name + "\n");
+            // Album URL
+            console.log("Album Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.external_urls.spotify);
+            spotifyOutput += ("Album Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.external_urls.spotify + "\n");
+
+            console.log("-----------------------------------------------------------------");
+            spotifyOutput += ("-------------------------------------------------------------------\n");
+        }
+
+        //append all console.log output not used for debugging to the output file
+        fs.appendFile("log.txt", spotifyOutput, function (err) {
+
+            // If an error was experienced we say it.
+            if (err) {
+                console.log(err);
+            }
+            // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+            else {
+                console.log("Content Added!");
+            }
+
+        });
+
+        //output full spotify output to file
+        fs.writeFile("spotify_output.json", JSON.stringify(returnedSpotifyApiQueryData, null, 4), function (err) {
+
+            // If the code experiences any errors it will log the error to the console.
+            if (err) {
+                return console.log(err);
+            }
+
+            // Otherwise, it will print: "movies.txt was updated!"
+            console.log("spotify_output.json was updated!");
+
+        });
+
+    });
+
     console.log("in spotify search");
 
 }
@@ -125,38 +296,91 @@ function omdbSearch() {
             // * Plot of the movie.
             // * Actors in the movie.
 
-            console.log("* Title of the movie");
-            console.log(JSON.parse(body).Title);
-            console.log("* Year the movie came out");
-            console.log(JSON.parse(body).Year);
+            var omdbOutput = "";
 
+            console.log("* Title of the movie");
+            omdbOutput += ("* Title of the movie\n");
+            console.log(JSON.parse(body).Title);
+            omdbOutput += (JSON.parse(body).Title + "\n");
+            console.log("* Date the movie came out");
+            omdbOutput += ("* Date the movie came out\n");
+            console.log(JSON.parse(body).Released);
+            omdbOutput += (JSON.parse(body).Released + "\n");
 
             if (JSON.parse(body).Ratings[0].Value != undefined) {
                 console.log("* IMDB Rating of the movie.");
+                omdbOutput += ("* IMDB Rating of the movie.\n");
                 console.log(JSON.parse(body).Ratings[0].Source + " - " + JSON.parse(body).Ratings[0].Value);
+                omdbOutput += (JSON.parse(body).Ratings[0].Source + " - " + JSON.parse(body).Ratings[0].Value + "\n");
+
             }
 
             if (JSON.parse(body).Ratings[1].Value != undefined) {
-                console.log("* Rotten Tomatoes Rating of the movie.");
+                console.log("* IMDB Rating of the movie.");
+                omdbOutput += ("* IMDB Rating of the movie.\n");
                 console.log(JSON.parse(body).Ratings[1].Source + " - " + JSON.parse(body).Ratings[1].Value);
+                omdbOutput += (JSON.parse(body).Ratings[1].Source + " - " + JSON.parse(body).Ratings[1].Value + "\n");
+
             }
 
             console.log("* Country where the movie was produced.");
+            omdbOutput += ("* Country where the movie was produced.\n");
+
             console.log(JSON.parse(body).Country);
+            omdbOutput += (JSON.parse(body).Country + "\n");
 
             console.log("* Language of the movie.");
+            omdbOutput += ("* Language of the movie\n");
+
             console.log(JSON.parse(body).Language);
+            omdbOutput += (JSON.parse(body).Language + "\n");
 
             console.log("* Plot of the movie.");
-            console.log(JSON.parse(body).Plot);
+            omdbOutput += ("* Plot of the movie.\n");
 
-            console.log();"* Actors in the movie."
+            console.log(JSON.parse(body).Plot);
+            omdbOutput += (JSON.parse(body).Plot + "\n");
+
+            console.log("* Actors in the movie.");
+            omdbOutput += ("* Actors in the movie.\n");
             console.log(JSON.parse(body).Actors);
+            omdbOutput += (JSON.parse(body).Actors + "\n");
+
+            console.log("--------------------------------------------------");
+            omdbOutput += ("--------------------------------------------------\n");
 
             // if (JSON.parse(body).Ratings[2].Value != undefined) {
             //     console.log(JSON.parse(body).Ratings[2].Source);
             //     console.log(JSON.parse(body).Ratings[2].Value);
             // }
+
+            fs.appendFile("log.txt", omdbOutput, function (err) {
+
+                // If an error was experienced we say it.
+                if (err) {
+                    console.log(err);
+                }
+                // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+                else {
+                    console.log("Content Added!");
+                }
+
+            });
+
+            //output full omdb output to file - have to JSON parse the object then JSON Stringify to make it readable
+            fs.writeFile("omdb_output.json", JSON.stringify(JSON.parse(body), null, 4), function (err) {
+
+                // If the code experiences any errors it will log the error to the console.
+                if (err) {
+                    return console.log(err);
+                }
+
+                // Otherwise, it will print: "movies.txt was updated!"
+                console.log("omdb_output.json was updated!");
+
+            });
+
+
         }
 
     });
@@ -165,6 +389,62 @@ function omdbSearch() {
 
 //do what it says search function
 function doWhatItSaysSearch() {
+
     console.log("in dwis search");
+    //read command from random.txt
+    //format is the type of search to run , "string"
+    fs.readFile("random.txt", "utf8", function (thisIsAnErrorVar, fileData) {
+
+        // If the code experiences any errors it will log the error to the console.
+        if (thisIsAnErrorVar) {
+            return console.log(thisIsAnErrorVar);
+        }
+
+        // We will then print the contents of data
+        console.log(fileData);
+
+        // Then split it by commas (to make it more readable)
+        var fileDataArr = fileData.split(",");
+
+        // We will then re-display the content as an array for later use.
+        console.log(fileDataArr);
+
+        // Store the operation from the parsed file in liri Operation var
+        var liriOperation = fileDataArr[0];
+
+        //seed argv with value like user passed it in 
+        process.argv[3] = fileDataArr[1];
+
+        //swith on what type of search to do
+        switch (liriOperation) {
+            //twitter search
+            case "my-tweets":
+                twitterSearch();
+                break;
+
+            //spotify search
+            case "spotify-this-song":
+                spotifySearch();
+                break;
+
+            //omdb search
+            case "movie-this":
+                omdbSearch();
+                break;
+
+            //default case
+            default:
+                console.log("Error in format of random.txt file.  (command[, string1 [string2 ...]])");
+
+        }
+        // var bankAccountTotal = 0;
+        // for (i = 0; i < fileDataArr.length; i++) {
+        //     bankAccountTotal += parseFloat(dataArr[i]);
+
+        // }
+
+        // console.log(bankAccountTotal.toFixed(2));
+    })
+
 
 }
