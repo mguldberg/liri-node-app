@@ -31,7 +31,8 @@ var movieName = "Mr. Nobody";
 
 //default song name to The Sign
 // var songName = "Cliffs of Dover";
-var songName = "The Sign Ace of Base"
+// var songName = "The Sign Ace of Base"
+var songName = "0hrBpAOgrt8RXigk83LLNE"
 
 // We then store the textfile filename given to us from the command line
 var liriOperation = process.argv[2];
@@ -56,6 +57,10 @@ switch (liriOperation) {
     case "do-what-it-says":
         doWhatItSaysSearch();
         break;
+
+    default:
+        console.log("Error in format of random.txt file.  (command[, string1 [string2 ...]])");
+
 }
 
 //twitter Search function
@@ -65,13 +70,15 @@ function twitterSearch() {
 
     // Set up your search parameters
     var params = {
-        screen_name: 'GopherFootball',
-        // q: 'gopher',
-        count: 5,
+        // screen_name: 'GopherFootball',
+        // q: 'mg_bootcamp',
+        screen_name: 'mg_bootcamp',
+        count: 20,
         result_type: 'recent',
         lang: 'en'
     }
 
+    console.log(" this is a shortcut");
     // twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
 
     twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
@@ -87,9 +94,25 @@ function twitterSearch() {
                 //* Username 
                 console.log("Twitter username: @" + tweets[i].user.screen_name);
                 twitterOutput += ("Twitter username: @" + tweets[i].user.screen_name + "\n");
+
+                //handle undefined URL possiblility
+                if (tweets[i].entities.urls[0].url != undefined) {
+                    // Tweet URL
+                    console.log("Tweet URL: " + tweets[i].entities.urls[0].url);
+                    twitterOutput += ("Tweet URL: " + tweets[i].entities.urls[0].url + "\n");
+                }
+                else {  
                 // Tweet URL
-                console.log("Tweet URL: " + tweets[i].user.url);
-                twitterOutput += ("Tweet URL: " + tweets[i].user.url + "\n");
+                console.log("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url);
+                twitterOutput += ("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url + "\n");
+                }
+                // ["0"].entities.urls["0"].url
+                // [1].retweeted_status.entities.urls["0"].url
+                // [1].retweeted_status.user.entities.url.urls["0"].url
+
+                // [1].retweeted_status.entities.urls["0"].url
+                // ["0"].retweeted_status.entities.urls["0"].url
+                // ["0"].entities.urls["0"].url
 
                 //* Tweet Content
                 console.log("Tweet Content>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -101,6 +124,10 @@ function twitterSearch() {
                 console.log("--------------------------------------------------");
                 twitterOutput += ("--------------------------------------------------\n");
             }
+
+            console.log(tweets);
+
+            debugger;
 
             //append all console.log output not used for debugging to the output file
             fs.appendFile("log.txt", twitterOutput, function (err) {
@@ -132,7 +159,7 @@ function twitterSearch() {
                 }
 
                 // Otherwise, it will print: "movies.txt was updated!"
-                console.log("twitter_output_json_format.txt was updated!");
+                console.log("twitter_output.json was updated!");
 
             });
 
@@ -302,8 +329,8 @@ function omdbSearch() {
             omdbOutput += ("* Title of the movie\n");
             console.log(JSON.parse(body).Title);
             omdbOutput += (JSON.parse(body).Title + "\n");
-            console.log("* Date the movie came out");
-            omdbOutput += ("* Date the movie came out\n");
+            console.log("* Year the movie was filmed");
+            omdbOutput += ("* Year the movie was filmed\n");
             console.log(JSON.parse(body).Released);
             omdbOutput += (JSON.parse(body).Released + "\n");
 
@@ -382,6 +409,9 @@ function omdbSearch() {
 
 
         }
+        else {
+            console.log("There was an error on OMDB lookup. Error response: " + error);
+        };
 
     });
 
