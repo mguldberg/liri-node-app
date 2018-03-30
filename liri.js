@@ -31,8 +31,8 @@ var movieName = "Mr. Nobody";
 
 //default song name to The Sign
 // var songName = "Cliffs of Dover";
-// var songName = "The Sign Ace of Base"
-var songName = "0hrBpAOgrt8RXigk83LLNE"
+var songName = "The Sign Ace of Base"
+
 
 // We then store the textfile filename given to us from the command line
 var liriOperation = process.argv[2];
@@ -96,16 +96,20 @@ function twitterSearch() {
                 twitterOutput += ("Twitter username: @" + tweets[i].user.screen_name + "\n");
 
                 //handle undefined URL possiblility
-                if (tweets[i].entities.urls[0].url != undefined) {
+                if (tweets[i].entities.urls.length != 0) {
                     // Tweet URL
                     console.log("Tweet URL: " + tweets[i].entities.urls[0].url);
                     twitterOutput += ("Tweet URL: " + tweets[i].entities.urls[0].url + "\n");
                 }
-                else {  
-                // Tweet URL
-                console.log("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url);
-                twitterOutput += ("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url + "\n");
+                else if (tweets[i].retweeted == true) {
+                    if (tweets[i].retweeted_status.entities.urls.length != 0) {
+                        // Tweet URL
+                        console.log("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url);
+                        twitterOutput += ("Tweet URL: " + tweets[i].retweeted_status.entities.urls[0].url + "\n");
+                    }
                 }
+
+                // tweets[i].retweeted_status.entities.urls[0].length != 0 &&
                 // ["0"].entities.urls["0"].url
                 // [1].retweeted_status.entities.urls["0"].url
                 // [1].retweeted_status.user.entities.url.urls["0"].url
@@ -195,7 +199,7 @@ function spotifySearch() {
     var spotifySearchParms = {
         type: "track",
         query: songName,
-        limit: "5"
+        limit: "1"
     };
 
     spotifyClient.search(spotifySearchParms, function (err, returnedSpotifyApiQueryData) {
@@ -226,8 +230,8 @@ function spotifySearch() {
             console.log("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name);
             spotifyOutput += ("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name + "\n");
             // Song URL
-            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify);
-            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify + "\n");
+            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify);
+            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify + "\n");
             // Album Name 
             console.log("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name);
             spotifyOutput += ("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name + "\n");
@@ -331,8 +335,8 @@ function omdbSearch() {
             omdbOutput += (JSON.parse(body).Title + "\n");
             console.log("* Year the movie was filmed");
             omdbOutput += ("* Year the movie was filmed\n");
-            console.log(JSON.parse(body).Released);
-            omdbOutput += (JSON.parse(body).Released + "\n");
+            console.log(JSON.parse(body).Year);
+            omdbOutput += (JSON.parse(body).Year + "\n");
 
             if (JSON.parse(body).Ratings[0].Value != undefined) {
                 console.log("* IMDB Rating of the movie.");
@@ -342,9 +346,9 @@ function omdbSearch() {
 
             }
 
-            if (JSON.parse(body).Ratings[1].Value != undefined) {
-                console.log("* IMDB Rating of the movie.");
-                omdbOutput += ("* IMDB Rating of the movie.\n");
+            if (JSON.parse(body).Ratings[1] != undefined) {
+                console.log("* Rotten Tomatoes Rating of the movie.");
+                omdbOutput += ("* Rotten Tomatoes Rating of the movie.\n");
                 console.log(JSON.parse(body).Ratings[1].Source + " - " + JSON.parse(body).Ratings[1].Value);
                 omdbOutput += (JSON.parse(body).Ratings[1].Source + " - " + JSON.parse(body).Ratings[1].Value + "\n");
 
