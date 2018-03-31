@@ -320,3 +320,93 @@ Song Link: https://open.spotify.com/track/3jYRpwbctfqB77uU7T7K3U
 Album Name: Special Forces
 Album Link: https://open.spotify.com/album/4vWxauP6oFowwSQeBnFwRW
 -------------------------------------------------------------------
+* Title of the movie
+Rogue One: A Star Wars Story
+* Year the movie was filmed
+2016
+* IMDB Rating of the movie.
+Internet Movie Database - 7.8/10
+* Rotten Tomatoes Rating of the movie.
+Rotten Tomatoes - 85%
+* Country where the movie was produced.
+USA
+* Language of the movie
+English
+* Plot of the movie.
+The daughter of an Imperial scientist joins the Rebel Alliance in a risky move to steal the Death Star plans.
+* Actors in the movie.
+Felicity Jones, Diego Luna, Alan Tudyk, Donnie Yen
+--------------------------------------------------
+* Title of the movie
+The Lego Movie
+* Year the movie was filmed
+2014
+* IMDB Rating of the movie.
+Internet Movie Database - 7.8/10
+* Rotten Tomatoes Rating of the movie.
+Rotten Tomatoes - 96%
+* Country where the movie was produced.
+Australia, USA, Denmark
+* Language of the movie
+English
+* Plot of the movie.
+An ordinary LEGO construction worker, thought to be the prophesied as "special", is recruited to join a quest to stop an evil tyrant from gluing the LEGO universe into eternal stasis.
+* Actors in the movie.
+Will Arnett, Elizabeth Banks, Craig Berry, Alison Brie
+--------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Green Day
+Song Name: Good Riddance (Time of Your Life)
+Song Link: https://open.spotify.com/track/6ORqU0bHbVCRjXm9AjyHyZ
+Album Name: Nimrod
+Album Link: https://open.spotify.com/album/3x2uer6Xh0d5rF8toWpRDA
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: The Outfield
+Song Name: Winning It All
+Song Link: https://open.spotify.com/track/5b0eLEc1mIPyYnjuWHqk67
+Album Name: Rockeye
+Album Link: https://open.spotify.com/album/1f8mez2rmyspWoHb34f4Qz
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Matchbox Twenty
+Song Name: Push
+Song Link: https://open.spotify.com/track/2KVwlelhxKUy8LVV6JypH3
+Album Name: Yourself Or Someone Like You
+Album Link: https://open.spotify.com/album/4vUXTcKz7tXxrNl84meN6i
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Matchbox Twenty
+Song Name: https://open.spotify.com/artist/3Ngh2zDBRPEriyxQDAMKd1
+Song Link: https://open.spotify.com/track/2KVwlelhxKUy8LVV6JypH3
+Album Name: Yourself Or Someone Like You
+Album Link: https://open.spotify.com/album/4vUXTcKz7tXxrNl84meN6i
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Matchbox Twenty
+Song Name: Push
+Song Link: https://open.spotify.com/artist/3Ngh2zDBRPEriyxQDAMKd1
+Album Name: Yourself Or Someone Like You
+Album Link: https://open.spotify.com/album/4vUXTcKz7tXxrNl84meN6i
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Paula Abdul
+Song Name: Straight Up
+Song Link: https://open.spotify.com/artist/4PpmBoqphQusNFsxuVKb6j
+Album Name: Forever Your Girl
+Album Link: https://open.spotify.com/album/7zduRJgS6v79QmNUhKGozu
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Paula Abdul
+Song Name: Straight Up
+Song Link: https://open.spotify.com/artist/4PpmBoqphQusNFsxuVKb6j
+Album Name: Forever Your Girl
+Album Link: https://open.spotify.com/album/7zduRJgS6v79QmNUhKGozu
+-------------------------------------------------------------------
+---------------- Spotify Result #0 ------------------------------
+Artist Name: M83
+Song Name: Midnight City
+Song Link: https://open.spotify.com/artist/63MQldklfxkjYDoUE4Tppz
+Album Name: Hurry Up, We're Dreaming
+Album Link: https://open.spotify.com/album/6R0ynY7RF20ofs9GJR5TXR
+-------------------------------------------------------------------

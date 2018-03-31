@@ -230,8 +230,8 @@ function spotifySearch() {
             console.log("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name);
             spotifyOutput += ("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name + "\n");
             // Song URL
-            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify);
-            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify + "\n");
+            console.log("Song Link: " +  returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify);
+            spotifyOutput += ("Song Link: " +  returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify + "\n");
             // Album Name 
             console.log("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name);
             spotifyOutput += ("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name + "\n");
