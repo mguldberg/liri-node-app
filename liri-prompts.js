@@ -1,9 +1,21 @@
 
+//dotenv npm package
 var dotEnv = require("dotenv").config();
+
+//twitter npm package API
 var Twitter = require("twitter");
+
+//spotify npm package API
 var Spotify = require("node-spotify-api");
+
+//Use this for writing/appending to files
 var fs = require("fs");
+
+//load this for OMDb API
 var request = require("request");
+
+// Load the NPM Package inquirer
+var inquirer = require("inquirer");
 
 var keys = require("./keys.js");
 
@@ -33,34 +45,105 @@ var movieName = "Mr. Nobody";
 var songName = "The Sign Ace of Base"
 
 
-// We then store the textfile filename given to us from the command line
-var liriOperation = process.argv[2];
 
-//swith on what type of search to do
-switch (liriOperation) {
-    //twitter search
-    case "my-tweets":
-        twitterSearch();
-        break;
+// Remember to be creative!
+// ========================================================================
 
-    //spotify search
-    case "spotify-this-song":
-        spotifySearch();
-        break;
 
-    //omdb search
-    case "movie-this":
-        omdbSearch();
-        break;
+// Create a "Prompt" with a series of questions.
+inquirer
+    .prompt([
+        // Here we give the user a list to choose from.
+        {
+            type: "list",
+            message: "Which season do you like most?",
+            choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"],
+            name: "liri_assignment_arg"
+        },
 
-    case "do-what-it-says":
-        doWhatItSaysSearch();
-        break;
+        // Here we ask the user to confirm.
+        {
+            type: "confirm",
+            message: "Are you sure:",
+            name: "confirm",
+            //   default: false
+        }
+    ])
+    .then(function (userInput) {
+        // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
+        if (userInput.liri_assignment_arg) {
+            liriOperation = userInput.liri_assignment_arg;
+            console.log("user input: " + userInput.liri_assignment_arg);
+        }
+        else {
+            console.log("\nThat's okay " + userInput.username + ", come again when you are more sure.\n");
+        }
 
-    default:
-        console.log("Error in format of random.txt file.  (command[, string1 [string2 ...]])");
+        //swith on what type of search to do
+        switch (liriOperation) {
+            case "my-tweets":
+                twitterSearch();
+                break;
 
-}
+            //spotify search
+            case "spotify-this-song":
+                inquirer
+                    .prompt([
+                        // Here we give the user a list to choose from.
+                        {
+                            type: "input",
+                            message: "What song do you want to search for?",
+                            name: "songName"
+                        },
+                    ])
+                    .then(function (userInput) {
+                        // If the song name is present
+                        if (userInput.songName) {
+                            process.argv[3] = userInput.songName;
+                            console.log("inquirer user input: " + userInput.songName);
+                        }
+                        else {
+                            console.log("\nPlease try again.\n");
+                        }
+                        spotifySearch();
+                    })
+                break;
+
+            //omdb search
+            case "movie-this":
+                inquirer
+                    .prompt([
+                        // Here we give the user a list to choose from.
+                        {
+                            type: "input",
+                            message: "What movie do you want to search for?",
+                            name: "movieName"
+                        },
+                    ])
+                    .then(function (userInput) {
+                        // If the movie name is present
+                        if (userInput.movieName) {
+                            process.argv[3] = userInput.movieName;
+                            console.log("inquirer user input: " + userInput.movieName);
+                        }
+                        else {
+                            console.log("\nPlease try again.\n");
+                        }
+                        omdbSearch();
+                    })
+                break;
+
+            case "do-what-it-says":
+                doWhatItSaysSearch();
+                break;
+
+            default:
+                console.log("Error in format of random.txt file.  (command[, string1 [string2 ...]])");
+
+        }
+
+    });
+
 
 //twitter Search function
 function twitterSearch() {
@@ -85,9 +168,11 @@ function twitterSearch() {
         //if no error returned from Twitter get
         if (!error) {
             console.log("in the get from twitter");
+
             var twitterOutput = "#########################################\n";
             twitterOutput += "###### This is a my-tweets request ######\n";
             twitterOutput += "#########################################\n";
+
             for (i = 0; i < tweets.length; i++) {
 
                 console.log("---------------- Tweet #" + i + " ------------------------");
@@ -135,7 +220,7 @@ function twitterSearch() {
             debugger;
 
             //append all console.log output not used for debugging to the output file
-            fs.appendFile("log.txt", twitterOutput, function (err) {
+            fs.appendFile("log-command-line-menu.txt", twitterOutput, function (err) {
 
                 // If an error was experienced we say it.
                 if (err) {
@@ -213,9 +298,9 @@ function spotifySearch() {
         // console.log(JSON.parse(returnedSpotifyApiQueryData));
         console.log("in the get from spotify");
         var spotifyOutput = "#########################################\n";
-        spotifyOutput +=    "## This is a spotify-this-song request ##\n";
-        spotifyOutput +=    "#### spotify-this-song " + songName + " ###\n";
-        spotifyOutput +=    "#########################################\n";
+        spotifyOutput += "## This is a spotify-this-song request ##\n";
+        spotifyOutput += "#### spotify-this-song " + songName + " ###\n";
+        spotifyOutput += "#########################################\n";
 
         // Output content 
         // Artist(s)
@@ -233,8 +318,10 @@ function spotifySearch() {
             // Song Name 
             console.log("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name);
             spotifyOutput += ("Song Name: " + returnedSpotifyApiQueryData.tracks.items[i].name + "\n");
+            // Song URL
+            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify);
+            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify + "\n");
 
-            // console.log("&&&&&&"+ returnedSpotifyApiQueryData.tracks.items[i].preview_url +"&&&&&&&");
             //check to see if the song preview link exists
             if (returnedSpotifyApiQueryData.tracks.items[i].preview_url != null) {
                 // Song Preview URL
@@ -242,13 +329,6 @@ function spotifySearch() {
                 spotifyOutput += ("Song Preview Link: " + returnedSpotifyApiQueryData.tracks.items[i].preview_url + "\n");
             }
 
-            // Song URL
-            console.log("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify);
-            spotifyOutput += ("Song Link: " + returnedSpotifyApiQueryData.tracks.items[i].external_urls.spotify + "\n");
-
-            // // Song URL
-            // console.log("Song Link: " +  returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify);
-            // spotifyOutput += ("Song Link: " +  returnedSpotifyApiQueryData.tracks.items[i].album.artists[0].external_urls.spotify + "\n");
             // Album Name 
             console.log("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name);
             spotifyOutput += ("Album Name: " + returnedSpotifyApiQueryData.tracks.items[i].album.name + "\n");
@@ -261,7 +341,7 @@ function spotifySearch() {
         }
 
         //append all console.log output not used for debugging to the output file
-        fs.appendFile("log.txt", spotifyOutput, function (err) {
+        fs.appendFile("log-command-line-menu.txt", spotifyOutput, function (err) {
 
             // If an error was experienced we say it.
             if (err) {
@@ -405,7 +485,7 @@ function omdbSearch() {
             //     console.log(JSON.parse(body).Ratings[2].Value);
             // }
 
-            fs.appendFile("log.txt", omdbOutput, function (err) {
+            fs.appendFile("log-command-line-menu.txt", omdbOutput, function (err) {
 
                 // If an error was experienced we say it.
                 if (err) {
@@ -487,8 +567,6 @@ function doWhatItSaysSearch() {
         //seed argv with value like user passed it in 
         process.argv[3] = fileDataArr[1];
 
-        console.log(liriOperation);
-
         //swith on what type of search to do
         switch (liriOperation) {
             //twitter search
@@ -519,6 +597,4 @@ function doWhatItSaysSearch() {
 
         // console.log(bankAccountTotal.toFixed(2));
     })
-
-
 }

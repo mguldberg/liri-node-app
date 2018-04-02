@@ -1,52 +1,4 @@
 #########################################
-## This is a spotify-this-song request ##
-#### spotify-this-song +push ###
-#########################################
----------------- Spotify Result #0 ------------------------------
-Artist Name: Matchbox Twenty
-Song Name: Push
-Song Preview Link: https://p.scdn.co/mp3-preview/a6c10bb10f1a58420584e5f231c742798233736d?cid=e447b8e3242a48a4b7db9bc5e49823db
-Song Link: https://open.spotify.com/track/2KVwlelhxKUy8LVV6JypH3
-Album Name: Yourself Or Someone Like You
-Album Link: https://open.spotify.com/album/4vUXTcKz7tXxrNl84meN6i
--------------------------------------------------------------------
-#########################################
-###### This is a movie-this request #####
-####### movie-this +star+wars #######
-#########################################
-* Title of the movie
-Rogue One: A Star Wars Story
-* Year the movie was filmed
-2016
-* IMDB Rating of the movie.
-Internet Movie Database - 7.8/10
-* Rotten Tomatoes Rating of the movie.
-Rotten Tomatoes - 85%
-* Country where the movie was produced.
-USA
-* Language of the movie
-English
-* Plot of the movie.
-The daughter of an Imperial scientist joins the Rebel Alliance in a risky move to steal the Death Star plans.
-* Actors in the movie.
-Felicity Jones, Diego Luna, Alan Tudyk, Donnie Yen
---------------------------------------------------
-*****************************************
-* The following API query was started by*
-****** is a do-what-it-says request *****
-*****************************************
-#########################################
-## This is a spotify-this-song request ##
-#### spotify-this-song +"Caught Up In You" ###
-#########################################
----------------- Spotify Result #0 ------------------------------
-Artist Name: 38 Special
-Song Name: Caught Up In You
-Song Link: https://open.spotify.com/track/3jYRpwbctfqB77uU7T7K3U
-Album Name: Special Forces
-Album Link: https://open.spotify.com/album/4vWxauP6oFowwSQeBnFwRW
--------------------------------------------------------------------
-#########################################
 ###### This is a my-tweets request ######
 #########################################
 ---------------- Tweet #0 ------------------------
@@ -190,11 +142,39 @@ Tweet Content>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 This is a tweet for the world to see. https://t.co/jYRrt1CTxL
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 --------------------------------------------------
-
-*****************************************
-* The following API query was started by*
-****** is a do-what-it-says request *****
-*****************************************
+#########################################
+## This is a spotify-this-song request ##
+#### spotify-this-song +jailhouse ###
+#########################################
+---------------- Spotify Result #0 ------------------------------
+Artist Name: Elvis Presley
+Song Name: Jailhouse Rock
+Song Link: https://open.spotify.com/track/4gphxUgq0JSFv2BCLhNDiE
+Song Preview Link: https://p.scdn.co/mp3-preview/29990f669b5328b6c40320596a2b14d8660cdb54?cid=e447b8e3242a48a4b7db9bc5e49823db
+Album Name: Elvis' Golden Records
+Album Link: https://open.spotify.com/album/0C3t1htEDTFKcg7F2rNbek
+-------------------------------------------------------------------
+#########################################
+###### This is a movie-this request #####
+####### movie-this +push #######
+#########################################
+* Title of the movie
+Man Push Cart
+* Year the movie was filmed
+2005
+* IMDB Rating of the movie.
+Internet Movie Database - 7.1/10
+* Rotten Tomatoes Rating of the movie.
+Rotten Tomatoes - 88%
+* Country where the movie was produced.
+USA
+* Language of the movie
+English, Urdu
+* Plot of the movie.
+A night in the life of a former Pakistani rock star who now sells coffee from his push cart on the streets of Manhattan.
+* Actors in the movie.
+Ahmad Razvi, Leticia Dolera, Charles Daniel Sandoval, Ali Reza
+--------------------------------------------------
 #########################################
 ## This is a spotify-this-song request ##
 #### spotify-this-song +"Caught Up In You" ###
